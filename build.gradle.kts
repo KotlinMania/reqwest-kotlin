@@ -756,6 +756,13 @@ tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
     }
 }
 
+tasks.matching { it.name.contains("BuildSPMPackage") }.configureEach {
+    doFirst {
+        layout.buildDirectory.dir("SPMBuild/macosArm64/Debug/dd-a-files").orNull?.asFile?.mkdirs()
+        layout.buildDirectory.dir("SPMBuild/macosArm64/Release/dd-a-files").orNull?.asFile?.mkdirs()
+    }
+}
+
 // Swift Export smoke test — produces the SPM package via embedSwiftExportForXcode
 // (spawned with the Xcode-style env it requires) and runs `swift test` against it,
 // so Swift Export breakage surfaces locally, not only in the swift.yml CI job.
@@ -778,6 +785,11 @@ tasks.register("swiftExportSmokeTest") {
         val swiftBuildDir = swiftBuildDirFile.absolutePath
         layout.buildDirectory
             .dir("bin/macosArm64/SwiftExportBinaryDebugStatic")
+            .get()
+            .asFile
+            .mkdirs()
+        layout.buildDirectory
+            .dir("SPMBuild/macosArm64/Debug/dd-a-files")
             .get()
             .asFile
             .mkdirs()

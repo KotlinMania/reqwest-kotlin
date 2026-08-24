@@ -4,6 +4,17 @@ package io.github.kotlinmania.reqwest
 import kotlin.time.Duration
 
 /**
+ * A request parameter for query or form encoding.
+ */
+public class QueryParam(
+    public val name: String,
+    public val value: String,
+) {
+    public operator fun component1(): String = name
+    public operator fun component2(): String = value
+}
+
+/**
  * A request which can be executed with [Client.execute].
  */
 public class Request(
@@ -34,6 +45,10 @@ public class Request(
         this.urlVal = url
     }
 
+    public fun setHeaders(headers: HeaderMap) {
+        this.headersVal = headers
+    }
+
     public fun setBody(body: Body?) {
         this.bodyVal = body
     }
@@ -46,28 +61,19 @@ public class Request(
         this.timeoutVal = timeout
     }
 
-    public fun tryClone(): Request? {
-        val bodyCloned =
-            if (bodyVal != null) {
-                bodyVal?.tryClone() ?: return null
-            } else {
-                null
-            }
-        return Request(
-            methodVal = methodVal,
-            urlVal = urlVal.clone(),
-            headersVal = headersVal.clone(),
-            bodyVal = bodyCloned,
-            versionVal = versionVal,
-            timeoutVal = timeoutVal,
-        )
-    }
-
     public companion object {
         public fun new(
             method: Method,
             url: Url,
-        ): Request = Request(method, url)
+        ): Request =
+            Request(
+                methodVal = method,
+                urlVal = url,
+                headersVal = HeaderMap(),
+                bodyVal = null,
+                versionVal = Version.HTTP_11,
+                timeoutVal = null,
+            )
     }
 }
 
@@ -130,9 +136,9 @@ public class RequestBuilder(
         return body(Body.from(jsonString))
     }
 
-    public fun query(pairs: List<Pair<String, String>>): RequestBuilder {
+    public fun query(params: List<QueryParam>): RequestBuilder {
         val queryStr =
-            pairs.joinToString("&") { (k, v) ->
+            params.joinToString("&") { (k, v) ->
                 "${Url.percentEncode(k, "")}=${Url.percentEncode(v, "")}"
             }
         val existingQuery = request.url().query()
@@ -141,14 +147,18 @@ public class RequestBuilder(
         return this
     }
 
-    public fun form(pairs: List<Pair<String, String>>): RequestBuilder {
+    public fun queryParam(name: String, value: String): RequestBuilder = query(listOf(QueryParam(name, value)))
+
+    public fun form(params: List<QueryParam>): RequestBuilder {
         header(HeaderName.CONTENT_TYPE, HeaderValue.fromStr("application/x-www-form-urlencoded"))
         val formStr =
-            pairs.joinToString("&") { (k, v) ->
+            params.joinToString("&") { (k, v) ->
                 "${Url.percentEncode(k, "")}=${Url.percentEncode(v, "")}"
             }
         return body(Body.from(formStr))
     }
+
+    public fun formParam(name: String, value: String): RequestBuilder = form(listOf(QueryParam(name, value)))
 
     public fun timeout(timeout: Duration): RequestBuilder {
         request.setTimeout(timeout)
@@ -162,5 +172,5 @@ public class RequestBuilder(
 
     public fun build(): Request = request
 
-    public fun send(): Response = client.execute(request)
+    public suspend fun send(): Response = client.execute(request)
 }

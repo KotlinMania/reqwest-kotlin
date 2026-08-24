@@ -84,6 +84,17 @@ public class HeaderValue(
 }
 
 /**
+ * An entry pair within a [HeaderMap].
+ */
+public class HeaderEntry(
+    public val name: HeaderName,
+    public val value: HeaderValue,
+) {
+    public operator fun component1(): HeaderName = name
+    public operator fun component2(): HeaderValue = value
+}
+
+/**
  * A Map of HTTP headers.
  */
 public class HeaderMap {
@@ -137,12 +148,12 @@ public class HeaderMap {
 
     public fun containsKey(name: String): Boolean = map.containsKey(name.lowercase())
 
-    public fun entries(): List<Pair<HeaderName, HeaderValue>> {
-        val result = mutableListOf<Pair<HeaderName, HeaderValue>>()
+    public fun entries(): List<HeaderEntry> {
+        val result = mutableListOf<HeaderEntry>()
         for ((key, values) in map) {
             val original = originalNames[key] ?: HeaderName(key)
             for (v in values) {
-                result.add(original to v)
+                result.add(HeaderEntry(original, v))
             }
         }
         return result
