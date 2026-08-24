@@ -20,6 +20,7 @@ public interface RetryPolicy {
 
 public class DefaultRetryPolicy(
     private val maxRetries: Int = 2,
+    private val scopePredicate: ((Url) -> Boolean)? = null,
     private val classifier: (String, Url, StatusCode?, Throwable?) -> RetryAction = { _, _, status, error ->
         if (error != null) {
             RetryAction.Retryable
@@ -39,6 +40,7 @@ public class DefaultRetryPolicy(
         error: Throwable?,
     ): Boolean {
         if (count >= maxRetries) return false
+        if (scopePredicate != null && !scopePredicate.invoke(url)) return false
         val action = classifier(method, url, status, error)
         if (action == RetryAction.Retryable) {
             count++
@@ -52,24 +54,31 @@ public class DefaultRetryPolicy(
 
 public class Retry {
     public companion object {
-        public fun never(): Builder = Builder(0) { _, _, _, _ -> RetryAction.NonRetryable }
+        public fun never(): Builder =
+            Builder(
+                maxRetries = 0,
+                classify = { _, _, _, _ -> RetryAction.NonRetryable },
+            )
 
         public fun default(): Builder = Builder.default()
 
         public fun forHost(host: String): Builder =
-            Builder(2) { _, url, _, _ ->
-                if (url.hostStr() == host) RetryAction.Retryable else RetryAction.NonRetryable
-            }
+            Builder(
+                maxRetries = 2,
+                scopePredicate = { it.hostStr() == host },
+            )
 
         public fun scoped(predicate: (Url) -> Boolean): Builder =
-            Builder(2) { _, url, _, _ ->
-                if (predicate(url)) RetryAction.Retryable else RetryAction.NonRetryable
-            }
+            Builder(
+                maxRetries = 2,
+                scopePredicate = predicate,
+            )
     }
 }
 
 public class Builder(
     private var maxRetries: Int = 2,
+    private var scopePredicate: ((Url) -> Boolean)? = null,
     private var classify: (String, Url, StatusCode?, Throwable?) -> RetryAction = { _, _, status, error ->
         if (error != null) {
             RetryAction.Retryable
@@ -90,7 +99,7 @@ public class Builder(
         return this
     }
 
-    public fun intoPolicy(): RetryPolicy = DefaultRetryPolicy(maxRetries, classify)
+    public fun intoPolicy(): RetryPolicy = DefaultRetryPolicy(maxRetries, scopePredicate, classify)
 
     public companion object {
         public fun default(): Builder = Builder()

@@ -15,7 +15,10 @@ public class Url internal constructor(
     private var fragmentVal: String?,
 ) : IntoUrl {
     public companion object {
-        public fun percentEncode(input: String, keep: String = ""): String {
+        public fun percentEncode(
+            input: String,
+            keep: String = "",
+        ): String {
             val sb = StringBuilder()
             for (ch in input) {
                 if (ch in 'a'..'z' || ch in 'A'..'Z' || ch in '0'..'9' || ch == '-' || ch == '_' || ch == '.' || ch == '~' || ch in keep) {
@@ -33,31 +36,34 @@ public class Url internal constructor(
 
         public fun parse(input: String): Result<Url> {
             val trimmed = input.trim()
-            val schemeIndex = trimmed.indexOf("://")
-            if (schemeIndex == -1) {
-                // Check if it is a special scheme like "blob:" or "about:"
-                val colonIndex = trimmed.indexOf(':')
-                if (colonIndex != -1 && !trimmed.substring(0, colonIndex).contains('/')) {
-                    val scheme = trimmed.substring(0, colonIndex).lowercase()
-                    val rest = trimmed.substring(colonIndex + 1)
-                    return Result.success(
-                        Url(
-                            schemeVal = scheme,
-                            usernameVal = "",
-                            passwordVal = null,
-                            hostVal = null,
-                            portVal = null,
-                            pathVal = rest,
-                            queryVal = null,
-                            fragmentVal = null,
-                        ),
-                    )
-                }
+            val colonIndex = trimmed.indexOf(':')
+            if (colonIndex == -1) {
                 return Result.failure(IllegalArgumentException("Invalid URL: missing scheme in '$input'"))
             }
 
-            val scheme = trimmed.substring(0, schemeIndex).lowercase()
-            var rest = trimmed.substring(schemeIndex + 3)
+            val scheme = trimmed.substring(0, colonIndex).lowercase()
+            if (scheme.isEmpty() || !scheme[0].isLetter() || !scheme.all { it.isLetterOrDigit() || it == '+' || it == '-' || it == '.' }) {
+                return Result.failure(IllegalArgumentException("Invalid URL scheme: '$scheme' in '$input'"))
+            }
+
+            val afterColon = trimmed.substring(colonIndex + 1)
+            if (!afterColon.startsWith("//")) {
+                // Scheme-only without authority, e.g. blob:, mailto:, file: without authority, etc.
+                return Result.success(
+                    Url(
+                        schemeVal = scheme,
+                        usernameVal = "",
+                        passwordVal = null,
+                        hostVal = null,
+                        portVal = null,
+                        pathVal = afterColon,
+                        queryVal = null,
+                        fragmentVal = null,
+                    ),
+                )
+            }
+
+            var rest = afterColon.substring(2)
 
             var fragment: String? = null
             val fragIndex = rest.indexOf('#')
@@ -203,12 +209,6 @@ public class Url internal constructor(
     }
 
     override fun intoUrl(): Result<Url> {
-        if (schemeVal == "blob" && pathVal.startsWith("http")) {
-            val rest = asStr().substring(5)
-            if (Url.parse(rest).isSuccess) {
-                return Result.success(this)
-            }
-        }
         return if (hasHost()) {
             Result.success(this)
         } else {

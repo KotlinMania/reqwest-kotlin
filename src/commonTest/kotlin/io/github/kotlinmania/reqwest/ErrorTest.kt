@@ -11,8 +11,8 @@ class ErrorTest {
 
     @Test
     fun testSourceChain() {
-        val root = Error.request("root request error")
-        assertNull(root.cause)
+        val root = Error.create(Kind.Request, null)
+        assertNull(root.source())
 
         val link = Error.body(root)
         assertEquals(root, link.source())

@@ -89,7 +89,7 @@ public class Client internal constructor(
 
         // Store cookies from response
         if (cookieStore != null) {
-            val cookies = response.headers.getAll(HeaderName.SET_COOKIE)
+            val cookies = response.headers().getAll(HeaderName.SET_COOKIE)
             if (cookies.isNotEmpty()) {
                 cookieStore.setCookies(cookies, request.url())
             }

@@ -59,7 +59,7 @@ public class Policy internal constructor(
 
         public fun limited(max: Int): Policy =
             custom { attempt ->
-                if (attempt.previous().size >= max) {
+                if (attempt.previous().size > max) {
                     attempt.error(TooManyRedirects())
                 } else {
                     attempt.follow()
@@ -75,14 +75,12 @@ public fun removeSensitiveHeaders(
     next: Url,
     previous: List<Url>,
 ) {
-    if (previous.isEmpty()) return
-    val initial = previous.first()
-    val isCrossDomain =
-        initial.hostStr() != next.hostStr() ||
-            initial.port() != next.port() ||
-            initial.scheme() != next.scheme()
+    val prev = previous.lastOrNull() ?: return
+    val crossHost =
+        next.hostStr() != prev.hostStr() ||
+            next.portOrKnownDefault() != prev.portOrKnownDefault()
 
-    if (isCrossDomain) {
+    if (crossHost) {
         headers.remove(HeaderName.AUTHORIZATION)
         headers.remove(HeaderName.COOKIE)
         headers.remove(HeaderName.COOKIE2)

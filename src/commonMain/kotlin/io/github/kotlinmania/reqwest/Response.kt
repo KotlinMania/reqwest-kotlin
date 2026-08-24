@@ -5,11 +5,11 @@ package io.github.kotlinmania.reqwest
  * A response to a submitted [Request].
  */
 public class Response(
-    public val status: StatusCode,
-    public val version: Version = Version.HTTP_11,
-    public val headers: HeaderMap = HeaderMap(),
-    public val url: Url,
-    public val body: Body = Body.empty(),
+    private val status: StatusCode,
+    private val version: Version = Version.HTTP_11,
+    private val headers: HeaderMap = HeaderMap(),
+    private val url: Url,
+    private val body: Body = Body.empty(),
 ) {
     public fun status(): StatusCode = status
 
@@ -18,6 +18,8 @@ public class Response(
     public fun headers(): HeaderMap = headers
 
     public fun url(): Url = url
+
+    public fun body(): Body = body
 
     public fun contentLength(): Long? =
         body.contentLength()
@@ -61,62 +63,58 @@ public class Response(
     }
 
     public companion object {
-        public fun builder(): Builder = Builder()
+        public fun builder(): ResponseBuilder = ResponseBuilder()
 
-        public fun create(
-            status: StatusCode,
-            url: Url,
-            headers: HeaderMap = HeaderMap(),
-            body: Body = Body.empty(),
-            version: Version = Version.HTTP_11,
-        ): Response = Response(status, version, headers, url, body)
+        public fun create(status: StatusCode, url: Url): Response =
+            Response(status = status, url = url)
+    }
+}
+
+public class ResponseBuilder {
+    private var status: StatusCode = StatusCode.OK
+    private var version: Version = Version.HTTP_11
+    private var headers: HeaderMap = HeaderMap()
+    private var url: Url? = null
+    private var body: Body = Body.empty()
+
+    public fun status(status: StatusCode): ResponseBuilder {
+        this.status = status
+        return this
     }
 
-    public class Builder {
-        private var statusVal: StatusCode = StatusCode.OK
-        private var versionVal: Version = Version.HTTP_11
-        private var headersVal: HeaderMap = HeaderMap()
-        private var urlVal: Url? = null
-        private var bodyVal: Body = Body.empty()
+    public fun version(version: Version): ResponseBuilder {
+        this.version = version
+        return this
+    }
 
-        public fun status(status: StatusCode): Builder {
-            this.statusVal = status
-            return this
-        }
+    public fun headers(headers: HeaderMap): ResponseBuilder {
+        this.headers = headers.clone()
+        return this
+    }
 
-        public fun version(version: Version): Builder {
-            this.versionVal = version
-            return this
-        }
+    public fun header(name: HeaderName, value: HeaderValue): ResponseBuilder {
+        this.headers.append(name, value)
+        return this
+    }
 
-        public fun header(
-            name: HeaderName,
-            value: HeaderValue,
-        ): Builder {
-            headersVal.append(name, value)
-            return this
-        }
+    public fun url(url: Url): ResponseBuilder {
+        this.url = url
+        return this
+    }
 
-        public fun headers(headers: HeaderMap): Builder {
-            for ((k, v) in headers.entries()) {
-                headersVal.append(k, v)
-            }
-            return this
-        }
+    public fun body(body: Body): ResponseBuilder {
+        this.body = body
+        return this
+    }
 
-        public fun url(url: Url): Builder {
-            this.urlVal = url
-            return this
-        }
-
-        public fun body(body: Body): Builder {
-            this.bodyVal = body
-            return this
-        }
-
-        public fun build(): Response {
-            val u = urlVal ?: Url.parse("http://localhost/").getOrThrow()
-            return Response(statusVal, versionVal, headersVal, u, bodyVal)
-        }
+    public fun build(): Response {
+        val u = url ?: Url.parse("http://localhost/").getOrThrow()
+        return Response(
+            status = status,
+            version = version,
+            headers = headers,
+            url = u,
+            body = body,
+        )
     }
 }
