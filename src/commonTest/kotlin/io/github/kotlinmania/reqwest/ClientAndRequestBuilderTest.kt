@@ -9,7 +9,12 @@ import kotlin.time.Duration.Companion.seconds
 class ClientAndRequestBuilderTest {
     @Test
     fun testRequestBuilderProperties() {
-        val client = Client.builder().userAgent("test-agent/1.0").timeout(30.seconds).build()
+        val client =
+            Client
+                .builder()
+                .userAgent("test-agent/1.0")
+                .timeout(30.seconds)
+                .build()
 
         val req =
             client

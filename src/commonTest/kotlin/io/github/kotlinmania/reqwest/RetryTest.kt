@@ -31,7 +31,8 @@ class RetryTest {
         val url2 = Url.parse("https://other.com/api").getOrThrow()
 
         val p =
-            Retry.scoped { it.hostStr() == "example.com" }
+            Retry
+                .scoped { it.hostStr() == "example.com" }
                 .classifyFn { RetryAction.Retryable }
                 .maxRetriesPerRequest(2)
                 .intoPolicy()

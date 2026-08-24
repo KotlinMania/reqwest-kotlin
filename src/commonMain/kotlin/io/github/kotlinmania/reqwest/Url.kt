@@ -208,13 +208,12 @@ public class Url internal constructor(
         return true
     }
 
-    override fun intoUrl(): Result<Url> {
-        return if (hasHost()) {
+    override fun intoUrl(): Result<Url> =
+        if (hasHost()) {
             Result.success(this)
         } else {
             Result.failure(Error.urlBadScheme(this))
         }
-    }
 
     override fun asStr(): String = toString()
 

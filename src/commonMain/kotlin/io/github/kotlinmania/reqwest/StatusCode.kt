@@ -3,7 +3,10 @@ package io.github.kotlinmania.reqwest
 /**
  * An HTTP status code (3-digit integer from 100 to 999).
  */
-public class StatusCode(private val code: Int, private val canonicalReason: String = "") {
+public class StatusCode(
+    private val code: Int,
+    private val canonicalReason: String = "",
+) {
     init {
         require(code in 100..999) { "Status code must be between 100 and 999, got $code" }
     }

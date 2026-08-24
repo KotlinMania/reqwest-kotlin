@@ -7,20 +7,21 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class IntoUrlTest {
-
     @Test
     fun intoUrlFileScheme() {
-        val err = assertFailsWith<Error> {
-            "file:///etc/hosts".toReqwestUrl()
-        }
+        val err =
+            assertFailsWith<Error> {
+                "file:///etc/hosts".toReqwestUrl()
+            }
         assertTrue(err.source() is BadScheme || err.message?.contains("URL scheme is not allowed") == true)
     }
 
     @Test
     fun intoUrlBlobScheme() {
-        val err = assertFailsWith<Error> {
-            "blob:https://example.com".toReqwestUrl()
-        }
+        val err =
+            assertFailsWith<Error> {
+                "blob:https://example.com".toReqwestUrl()
+            }
         assertTrue(err.source() is BadScheme || err.message?.contains("URL scheme is not allowed") == true)
     }
 

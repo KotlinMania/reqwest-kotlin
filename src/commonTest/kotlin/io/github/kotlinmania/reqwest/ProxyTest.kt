@@ -7,7 +7,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 class ProxyTest {
-
     @Test
     fun testHttpProxy() {
         val proxy = Proxy.http("http://proxy.internal:8080").getOrThrow()
@@ -25,7 +24,9 @@ class ProxyTest {
     @Test
     fun testAllProxyWithNoProxy() {
         val proxy =
-            Proxy.all("http://proxy.internal:8080").getOrThrow()
+            Proxy
+                .all("http://proxy.internal:8080")
+                .getOrThrow()
                 .noProxy(NoProxy.fromCustom("localhost, 127.0.0.1, internal.domain"))
 
         val extUrl = Url.parse("https://example.com/").getOrThrow()

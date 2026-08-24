@@ -4,7 +4,10 @@ package io.github.kotlinmania.reqwest
 /**
  * Represents a server X.509 certificate.
  */
-public class Certificate private constructor(private val raw: ByteArray, private val isPem: Boolean) {
+public class Certificate private constructor(
+    private val raw: ByteArray,
+    private val isPem: Boolean,
+) {
     public fun toByteArray(): ByteArray = raw.copyOf()
 
     public companion object {
@@ -19,7 +22,10 @@ public class Certificate private constructor(private val raw: ByteArray, private
 /**
  * Represents a client certificate and private key identity.
  */
-public class Identity private constructor(private val raw: ByteArray, private val format: Format) {
+public class Identity private constructor(
+    private val raw: ByteArray,
+    private val format: Format,
+) {
     public enum class Format {
         PKCS12,
         PKCS8,

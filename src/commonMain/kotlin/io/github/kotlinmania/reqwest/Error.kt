@@ -212,7 +212,10 @@ public sealed class Kind {
 
     public data object Redirect : Kind()
 
-    public data class Status(val code: StatusCode, val reason: String? = null) : Kind()
+    public data class Status(
+        val code: StatusCode,
+        val reason: String? = null,
+    ) : Kind()
 
     public data object Body : Kind()
 
