@@ -739,7 +739,11 @@ tasks.register("hostTests") {
 // Patch generated SPM Package.swift to include minimum macOS platform for Swift Concurrency
 tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
     doLast {
-        val spmDir = layout.buildDirectory.dir("SPMPackage").orNull?.asFile
+        val spmDir =
+            layout.buildDirectory
+                .dir("SPMPackage")
+                .orNull
+                ?.asFile
         if (spmDir != null && spmDir.exists()) {
             spmDir.walkTopDown().filter { it.name == "Package.swift" }.forEach { file ->
                 val text = file.readText()
@@ -758,8 +762,16 @@ tasks.matching { it.name.contains("GenerateSPMPackage") }.configureEach {
 
 tasks.matching { it.name.contains("BuildSPMPackage") }.configureEach {
     doFirst {
-        layout.buildDirectory.dir("SPMBuild/macosArm64/Debug/dd-a-files").orNull?.asFile?.mkdirs()
-        layout.buildDirectory.dir("SPMBuild/macosArm64/Release/dd-a-files").orNull?.asFile?.mkdirs()
+        layout.buildDirectory
+            .dir("SPMBuild/macosArm64/Debug/dd-a-files")
+            .orNull
+            ?.asFile
+            ?.mkdirs()
+        layout.buildDirectory
+            .dir("SPMBuild/macosArm64/Release/dd-a-files")
+            .orNull
+            ?.asFile
+            ?.mkdirs()
     }
 }
 
@@ -784,6 +796,16 @@ tasks.register("swiftExportSmokeTest") {
         swiftBuildDirFile.mkdirs()
         val swiftBuildDir = swiftBuildDirFile.absolutePath
         layout.buildDirectory
+            .dir("SPMBuild")
+            .get()
+            .asFile
+            .deleteRecursively()
+        layout.buildDirectory
+            .dir("SPMPackage")
+            .get()
+            .asFile
+            .deleteRecursively()
+        layout.buildDirectory
             .dir("bin/macosArm64/SwiftExportBinaryDebugStatic")
             .get()
             .asFile
@@ -800,7 +822,6 @@ tasks.register("swiftExportSmokeTest") {
                     "./gradlew",
                     "embedSwiftExportForXcode",
                     "--no-configuration-cache",
-                    "--no-daemon",
                     "--console=plain",
                 )
                 environment(
@@ -833,12 +854,6 @@ tasks.register("swiftExportSmokeTest") {
                 )
             }
         }
-
-        execOperations
-            .exec {
-                workingDir = layout.projectDirectory.dir("swift-test-harness").asFile
-                commandLine("swift", "package", "--scratch-path", swiftBuildDir, "reset")
-            }.assertNormalExitValue()
 
         execOperations
             .exec {

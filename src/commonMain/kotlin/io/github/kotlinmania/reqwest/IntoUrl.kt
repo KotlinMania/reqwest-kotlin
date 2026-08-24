@@ -14,7 +14,9 @@ public interface IntoUrlSealed {
     public fun asStr(): String
 }
 
-public class StringIntoUrl(private val str: String) : IntoUrl {
+public class StringIntoUrl(
+    private val str: String,
+) : IntoUrl {
     override fun intoUrl(): Result<Url> {
         val parsed =
             Url.parse(str).getOrElse { err ->

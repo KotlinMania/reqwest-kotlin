@@ -94,12 +94,18 @@ public class Proxy internal constructor(
             is Intercept.All -> ic.url
             is Intercept.Http -> if (targetUrl.scheme() == "http" || targetUrl.scheme() == "ws") ic.url else null
             is Intercept.Https -> if (targetUrl.scheme() == "https" || targetUrl.scheme() == "wss") ic.url else null
-            is Intercept.Custom -> ic.matcher.match(targetUrl)?.intoProxy()?.getOrNull()
+            is Intercept.Custom ->
+                ic.matcher
+                    .match(targetUrl)
+                    ?.intoProxy()
+                    ?.getOrNull()
         }
     }
 }
 
-public class NoProxy(private val inner: String = "") {
+public class NoProxy(
+    private val inner: String = "",
+) {
     public fun matches(url: Url): Boolean {
         if (inner.isEmpty()) return false
         val host = url.hostStr() ?: return false
@@ -128,16 +134,26 @@ internal class Extra(
 )
 
 internal sealed class Intercept {
-    class Http(val url: Url) : Intercept()
+    class Http(
+        val url: Url,
+    ) : Intercept()
 
-    class Https(val url: Url) : Intercept()
+    class Https(
+        val url: Url,
+    ) : Intercept()
 
-    class All(val url: Url) : Intercept()
+    class All(
+        val url: Url,
+    ) : Intercept()
 
-    class Custom(val matcher: CustomMatcher) : Intercept()
+    class Custom(
+        val matcher: CustomMatcher,
+    ) : Intercept()
 }
 
-internal class CustomMatcher(private val func: (Url) -> IntoProxy?) {
+internal class CustomMatcher(
+    private val func: (Url) -> IntoProxy?,
+) {
     fun match(url: Url): IntoProxy? = func(url)
 }
 
@@ -145,7 +161,9 @@ public interface IntoProxy {
     public fun intoProxy(): Result<Url>
 }
 
-public class UrlIntoProxy(private val url: Url) : IntoProxy {
+public class UrlIntoProxy(
+    private val url: Url,
+) : IntoProxy {
     override fun intoProxy(): Result<Url> {
         val target = url
         if (target.port() == null && (target.scheme().startsWith("socks"))) {
@@ -155,7 +173,9 @@ public class UrlIntoProxy(private val url: Url) : IntoProxy {
     }
 }
 
-public class StringIntoProxy(private val str: String) : IntoProxy {
+public class StringIntoProxy(
+    private val str: String,
+) : IntoProxy {
     override fun intoProxy(): Result<Url> {
         val parsed = Url.parse(str)
         if (parsed.isSuccess) {

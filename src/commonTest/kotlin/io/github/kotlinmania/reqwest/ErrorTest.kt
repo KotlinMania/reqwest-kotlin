@@ -8,7 +8,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class ErrorTest {
-
     @Test
     fun testSourceChain() {
         val root = Error.create(Kind.Request, null)

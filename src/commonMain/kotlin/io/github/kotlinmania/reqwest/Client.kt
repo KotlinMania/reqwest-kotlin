@@ -202,8 +202,8 @@ public class ClientBuilder {
         return this
     }
 
-    public fun build(): Client {
-        return Client(
+    public fun build(): Client =
+        Client(
             defaultHeaders = headers.copy(),
             userAgent = userAgent,
             timeout = timeout,
@@ -215,5 +215,4 @@ public class ClientBuilder {
             retryPolicy = retryPolicy,
             httpsOnly = httpsOnly,
         )
-    }
 }

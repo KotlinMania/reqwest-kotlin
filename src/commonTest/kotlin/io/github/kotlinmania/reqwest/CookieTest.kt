@@ -8,7 +8,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class CookieTest {
-
     @Test
     fun testCookieParse() {
         val result = Cookie.parse(HeaderValue.fromStr("foo=bar; Domain=example.com; Path=/api; HttpOnly; Secure"))

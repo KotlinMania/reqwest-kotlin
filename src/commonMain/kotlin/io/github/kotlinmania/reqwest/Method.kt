@@ -3,7 +3,9 @@ package io.github.kotlinmania.reqwest
 /**
  * An HTTP method.
  */
-public class Method(public val name: String) {
+public class Method(
+    public val name: String,
+) {
     public fun asStr(): String = name
 
     override fun toString(): String = name

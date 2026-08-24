@@ -3,7 +3,9 @@ package io.github.kotlinmania.reqwest
 /**
  * An HTTP version.
  */
-public class Version(public val value: String) {
+public class Version(
+    public val value: String,
+) {
     public fun asStr(): String = value
 
     override fun toString(): String = value
