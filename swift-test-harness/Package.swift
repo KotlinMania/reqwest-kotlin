@@ -22,7 +22,7 @@ let package = Package(
             ],
             linkerSettings: [
                 .unsafeFlags([
-                    "-L", "../build/swift-test",
+                    "-L", "../build/swift-test-scratch",
                     "-lReqwest",
                     "-F", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
                     "-Xlinker", "-rpath",
