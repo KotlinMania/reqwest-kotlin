@@ -834,16 +834,11 @@ tasks.register("swiftExportSmokeTest") {
             }
         }
 
+        val spmScratch = swiftBuildDirFile.resolve(".spm-scratch").absolutePath
         execOperations
             .exec {
                 workingDir = layout.projectDirectory.dir("swift-test-harness").asFile
-                commandLine("swift", "package", "--scratch-path", swiftBuildDir, "reset")
-            }.assertNormalExitValue()
-
-        execOperations
-            .exec {
-                workingDir = layout.projectDirectory.dir("swift-test-harness").asFile
-                commandLine("swift", "test", "--scratch-path", swiftBuildDir)
+                commandLine("swift", "test", "--scratch-path", spmScratch)
             }.assertNormalExitValue()
     }
 }
