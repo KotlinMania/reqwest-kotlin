@@ -90,18 +90,15 @@ Every matched file is listed below with function and type symbol parity.
 
 ### 6. async_impl.client
 
-- **Target:** `reqwest.Client [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Client`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 1032708.7
-- **Functions:** 23/109 matched (target 36)
+- **Functions:** 23/109 matched (target 34)
 - **Missing functions:** `default`, `poll_ready`, `call`, `gzip`, `brotli`, `zstd`, `deflate`, `no_gzip`, `no_brotli`, `no_zstd`, `no_deflate`, `referer`, `connection_verbose`, `pool_idle_timeout`, `pool_max_idle_per_host`, `http1_title_case_headers`, `http1_allow_obsolete_multiline_headers_in_responses`, `http1_ignore_invalid_headers_in_responses`, `http1_allow_spaces_after_header_name_in_responses`, `http1_only`, `http09_responses`, `http2_prior_knowledge`, `http3_prior_knowledge`, `http2_initial_stream_window_size`, `http2_initial_connection_window_size`, `http2_adaptive_window`, `http2_max_frame_size`, `http2_max_header_list_size`, `http2_keep_alive_interval`, `http2_keep_alive_timeout`, `http2_keep_alive_while_idle`, `tcp_nodelay`, `local_address`, `interface`, `tcp_keepalive`, `tcp_keepalive_interval`, `tcp_keepalive_retries`, `tcp_user_timeout`, `unix_socket`, `windows_named_pipe`, `add_root_certificate`, `add_crl`, `add_crls`, `tls_built_in_root_certs`, `tls_built_in_webpki_certs`, `tls_built_in_native_certs`, `identity`, `danger_accept_invalid_hostnames`, `danger_accept_invalid_certs`, `tls_sni`, `min_tls_version`, `max_tls_version`, `use_native_tls`, `use_rustls_tls`, `use_preconfigured_tls`, `tls_info`, `trust_dns`, `hickory_dns`, `no_trust_dns`, `no_hickory_dns`, `resolve`, `resolve_to_addrs`, `dns_resolver`, `dns_resolver2`, `tls_early_data`, `http3_max_idle_timeout`, `http3_stream_receive_window`, `http3_conn_receive_window`, `http3_send_window`, `http3_congestion_bbr`, `http3_max_field_section_size`, `http3_send_grease`, `connector_layer`, `execute_request`, `proxy_auth`, `proxy_custom_headers`, `fmt`, `fmt_fields`, `in_flight`, `total_timeout`, `new_err`, `inner`, `poll`, `execute_request_rejects_invalid_urls`, `execute_request_rejects_invalid_hostname`, `test_future_size`
-- **Types:** 2/18 matched (target 4)
+- **Types:** 2/18 matched (target 3)
 - **Missing types:** `HttpVersionPref`, `Accepts`, `HyperService`, `Error`, `Response`, `Future`, `Config`, `HyperClient`, `MaybeCookieService`, `MaybeDecompression`, `LayeredService`, `LayeredFuture`, `ClientRef`, `PendingInner`, `ResponseFuture`, `Output`
 - **Tests:** 0/3 matched
-- **Provenance warning:** port-lint provenance header matched only by basename: `tests:tests/client.rs` vs expected `async_impl/client.rs`
-- **Proposed provenance header:** `// port-lint: tests async_impl/client.rs` (current: `// port-lint: tests tests/client.rs`)
-- **Lint issues:** 1
 
 ### 7. async_impl.request
 
@@ -214,9 +211,9 @@ Every matched file is listed below with function and type symbol parity.
 - **Similarity:** 0.15
 - **Dependents:** 0
 - **Priority Score:** 40508.5
-- **Functions:** 1/5 matched (target 2)
+- **Functions:** 1/5 matched (target 4)
 - **Missing functions:** `_assert_impls`, `assert_send`, `assert_sync`, `assert_clone`
-- **Types:** 0/0 matched (target 1)
+- **Types:** 0/0 matched (target 2)
 - **Missing types:** _none_
 
 ## Success Criteria
