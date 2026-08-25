@@ -496,7 +496,7 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
             implementation(
-                extensions
+                project.extensions
                     .getByType(VersionCatalogsExtension::class.java)
                     .named("libs")
                     .findLibrary("kotlinx-coroutines-test")
