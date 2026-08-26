@@ -11,6 +11,7 @@ public class QueryParam(
     public val value: String,
 ) {
     public operator fun component1(): String = name
+
     public operator fun component2(): String = value
 }
 

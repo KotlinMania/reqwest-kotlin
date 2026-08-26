@@ -6,13 +6,15 @@ import kotlin.time.Duration
 /**
  * Request-scoped configuration store.
  */
-public class RequestConfig<T>(public var value: T? = null) {
+public class RequestConfig<T>(
+    public var value: T? = null,
+) {
     public fun fetch(clientDefault: T?): T? = value ?: clientDefault
 
     public companion object {
-        public val TOTAL_TIMEOUT: String = "TotalTimeout"
-        public val CONNECT_TIMEOUT: String = "ConnectTimeout"
-        public val READ_TIMEOUT: String = "ReadTimeout"
+        public const val TOTAL_TIMEOUT: String = "TotalTimeout"
+        public const val CONNECT_TIMEOUT: String = "ConnectTimeout"
+        public const val READ_TIMEOUT: String = "ReadTimeout"
     }
 }
 

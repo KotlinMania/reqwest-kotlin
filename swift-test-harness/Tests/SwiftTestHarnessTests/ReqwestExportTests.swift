@@ -1,20 +1,21 @@
-import XCTest
+import Testing
 import Reqwest
 
-final class ReqwestExportTests: XCTestCase {
-    func testSwiftModuleLoads() throws {
-        XCTAssertTrue(true, "Reqwest swift module imported cleanly")
+@Suite("Reqwest Swift Export Smoke Tests")
+struct ReqwestExportTests {
+    @Test("Reqwest swift module imports cleanly")
+    func swiftModuleLoads() {
+        #expect(Bool(true))
     }
 
-    func testStatusCode() throws {
+    @Test("Reqwest exported types instantiate cleanly")
+    func exportedTypesInstantiate() {
         let code = StatusCode.Companion.shared.OK
-        XCTAssertEqual(code.asU16(), 200)
-        XCTAssertTrue(code.isSuccess())
-        XCTAssertFalse(code.isClientError())
-    }
+        #expect(code.asU16() == 200)
+        #expect(code.isSuccess() == true)
+        #expect(code.isClientError() == false)
 
-    func testMethod() throws {
         let get = Method.Companion.shared.GET
-        XCTAssertEqual(get.name, "GET")
+        #expect(get.name == "GET")
     }
 }

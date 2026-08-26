@@ -6,10 +6,14 @@ public sealed class ActionKind {
 
     public object Stop : ActionKind()
 
-    public class Error(public val error: Throwable) : ActionKind()
+    public class Error(
+        public val error: Throwable,
+    ) : ActionKind()
 }
 
-public class Action(internal val kind: ActionKind) {
+public class Action(
+    internal val kind: ActionKind,
+) {
     public companion object {
         public fun follow(): Action = Action(ActionKind.Follow)
 
@@ -49,7 +53,7 @@ public class Policy internal constructor(
     ): ActionKind = checkFn(Attempt(status, next, previous)).kind
 
     public companion object {
-        public val DEFAULT_MAX_REDIRECTS: Int = 10
+        public const val DEFAULT_MAX_REDIRECTS: Int = 10
 
         public fun default(): Policy = limited(DEFAULT_MAX_REDIRECTS)
 

@@ -4,7 +4,9 @@ package io.github.kotlinmania.reqwest
 /**
  * An HTTP Header Name.
  */
-public class HeaderName(public val name: String) {
+public class HeaderName(
+    public val name: String,
+) {
     public val lower: String = name.lowercase()
 
     public fun asStr(): String = name
@@ -91,6 +93,7 @@ public class HeaderEntry(
     public val value: HeaderValue,
 ) {
     public operator fun component1(): HeaderName = name
+
     public operator fun component2(): HeaderValue = value
 }
 

@@ -52,28 +52,26 @@ public class DefaultRetryPolicy(
     override fun retryCount(): Int = count
 }
 
-public class Retry {
-    public companion object {
-        public fun never(): Builder =
-            Builder(
-                maxRetries = 0,
-                classify = { _, _, _, _ -> RetryAction.NonRetryable },
-            )
+public object Retry {
+    public fun never(): Builder =
+        Builder(
+            maxRetries = 0,
+            classify = { _, _, _, _ -> RetryAction.NonRetryable },
+        )
 
-        public fun default(): Builder = Builder.default()
+    public fun default(): Builder = Builder.default()
 
-        public fun forHost(host: String): Builder =
-            Builder(
-                maxRetries = 2,
-                scopePredicate = { it.hostStr() == host },
-            )
+    public fun forHost(host: String): Builder =
+        Builder(
+            maxRetries = 2,
+            scopePredicate = { it.hostStr() == host },
+        )
 
-        public fun scoped(predicate: (Url) -> Boolean): Builder =
-            Builder(
-                maxRetries = 2,
-                scopePredicate = predicate,
-            )
-    }
+    public fun scoped(predicate: (Url) -> Boolean): Builder =
+        Builder(
+            maxRetries = 2,
+            scopePredicate = predicate,
+        )
 }
 
 public class Builder(
