@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/config.rs
+// port-lint: source config.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.time.Duration

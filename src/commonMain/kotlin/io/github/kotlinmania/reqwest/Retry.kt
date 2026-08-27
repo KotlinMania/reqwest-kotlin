@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/retry.rs
+// port-lint: source retry.rs
 package io.github.kotlinmania.reqwest
 
 public enum class RetryAction {
