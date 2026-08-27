@@ -5,12 +5,12 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 16/40 (40.0%)
-- **Function parity:** 146/963 matched (target 268) — 15.2%
-- **Class/type parity:** 35/198 matched (target 72) — 17.7%
-- **Combined symbol parity:** 181/1161 matched (target 340) — 15.6%
-- **Average inline-code cosine:** 0.18 (function body across 16 matched files)
-- **Average documentation cosine:** 0.33 (doc text across 16 matched files)
-- **Cheat-zeroed Files:** 1
+- **Function parity:** 146/976 matched (target 347) — 15.0%
+- **Class/type parity:** 35/205 matched (target 87) — 17.1%
+- **Combined symbol parity:** 181/1181 matched (target 434) — 15.3%
+- **Average inline-code cosine:** 0.18 (function body across 15 matched files)
+- **Average documentation cosine:** 0.35 (doc text across 15 matched files)
+- **Cheat-zeroed Files:** 2
 - **Critical Issues:** 16 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
@@ -22,14 +22,14 @@ No incomplete high-dependency files detected.
 Critical missing files (>10 dependencies):
 
 1. **wasm.body** (12 deps)
-   - Path: `wasm/body.rs`
+   - Path: `reqwest/src/wasm/body.rs`
    - Essential for 12 other files
 
 ## Detailed Work Items
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. response
+### 1. reqwest.response
 
 - **Target:** `reqwest.ResponseExt [ZERO]`
 - **Similarity:** 0.00
@@ -41,7 +41,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **Tests:** 0/1 matched
 
-### 2. cookie
+### 2. reqwest.cookie
 
 - **Target:** `reqwest.Cookie`
 - **Similarity:** 0.35
@@ -52,7 +52,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 3/9 matched (target 4)
 - **Missing types:** `CookieParseError`, `CookieService`, `Response`, `Error`, `Future`, `Output`
 
-### 3. error
+### 3. reqwest.error
 
 - **Target:** `reqwest.Error`
 - **Similarity:** 0.44
@@ -64,7 +64,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Result`, `BoxError`
 - **Tests:** 1/6 matched
 
-### 4. into_url
+### 4. reqwest.into_url
 
 - **Target:** `reqwest.Url`
 - **Similarity:** 0.30
@@ -76,7 +76,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **Tests:** 2/2 matched
 
-### 5. tls
+### 5. reqwest.tls
 
 - **Target:** `reqwest.Tls`
 - **Similarity:** 0.09
@@ -112,7 +112,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `Error`, `Params`
 - **Tests:** 0/16 matched
 
-### 8. proxy
+### 8. reqwest.proxy
 
 - **Target:** `reqwest.Proxy`
 - **Similarity:** 0.12
@@ -136,7 +136,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `FormParts`, `PartMetadata`, `PartProps`, `PercentEncoding`
 - **Tests:** 0/5 matched
 
-### 10. retry
+### 10. reqwest.retry
 
 - **Target:** `reqwest.Retry`
 - **Similarity:** 0.10
@@ -171,7 +171,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** _none_
 - **Tests:** 0/1 matched
 
-### 13. redirect
+### 13. reqwest.redirect
 
 - **Target:** `reqwest.Redirect`
 - **Similarity:** 0.40
@@ -183,7 +183,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing types:** `PolicyKind`, `TowerRedirectPolicy`
 - **Tests:** 4/4 matched
 
-### 14. config
+### 14. reqwest.config
 
 - **Target:** `reqwest.Config`
 - **Similarity:** 0.02
@@ -194,7 +194,7 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/4 matched (target 2)
 - **Missing types:** `RequestConfigValue`, `TotalTimeout`, `Value`
 
-### 15. util
+### 15. reqwest.util
 
 - **Target:** `reqwest.Util`
 - **Similarity:** 0.17
@@ -205,15 +205,15 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 0/1 matched
 - **Missing types:** `Escape`
 
-### 16. lib
+### 16. reqwest.lib
 
-- **Target:** `reqwest.Lib`
-- **Similarity:** 0.15
+- **Target:** `reqwest.Lib [STUB]`
+- **Similarity:** 0.00
 - **Dependents:** 0
-- **Priority Score:** 40508.5
-- **Functions:** 1/5 matched (target 4)
+- **Priority Score:** 40510.0
+- **Functions:** 1/5 matched (target 83)
 - **Missing functions:** `_assert_impls`, `assert_send`, `assert_sync`, `assert_clone`
-- **Types:** 0/0 matched (target 2)
+- **Types:** 0/0 matched (target 17)
 - **Missing types:** _none_
 
 ## Success Criteria
@@ -224,21 +224,4 @@ For each file to be considered "complete":
 - All tests ported
 - Documentation ported
 - port-lint header present
-
-## Reexport / Wiring Modules
-
-These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
-normal priority and missing-file ladders because they are wiring
-modules, not direct logic ports. Consult them for call-site routing;
-do not treat them as the next implementation target by default.
-
-### Missing
-
-| Source | Expected target | Deps | Source path | Expected path |
-|--------|-----------------|------|-------------|---------------|
-| `h3_client.mod` | `asyncimpl.h3client.Mod` | 0 | `async_impl/h3_client/mod.rs` | `asyncimpl/h3client/Mod.kt` |
-| `async_impl.mod` | `asyncimpl.Mod` | 0 | `async_impl/mod.rs` | `asyncimpl/Mod.kt` |
-| `blocking.mod` | `blocking.Mod` | 0 | `blocking/mod.rs` | `blocking/Mod.kt` |
-| `dns.mod` | `dns.Mod` | 0 | `dns/mod.rs` | `dns/Mod.kt` |
-| `wasm.mod` | `wasm.Mod` | 0 | `wasm/mod.rs` | `wasm/Mod.kt` |
 

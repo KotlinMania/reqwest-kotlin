@@ -1,4 +1,4 @@
-// port-lint: tests proxy.rs
+// port-lint: tests reqwest/src/proxy.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.test.Test

@@ -1,4 +1,4 @@
-// port-lint: source tls.rs
+// port-lint: source reqwest/src/tls.rs
 package io.github.kotlinmania.reqwest
 
 /**

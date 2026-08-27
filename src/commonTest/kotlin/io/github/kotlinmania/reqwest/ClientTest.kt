@@ -1,4 +1,4 @@
-// port-lint: tests async_impl/client.rs
+// port-lint: tests reqwest/src/async_impl/client.rs
 package io.github.kotlinmania.reqwest
 
 import kotlinx.coroutines.test.runTest
