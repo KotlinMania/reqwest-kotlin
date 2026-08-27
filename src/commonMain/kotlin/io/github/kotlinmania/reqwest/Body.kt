@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/async_impl/body.rs
+// port-lint: source async_impl/body.rs
 package io.github.kotlinmania.reqwest
 
 /**

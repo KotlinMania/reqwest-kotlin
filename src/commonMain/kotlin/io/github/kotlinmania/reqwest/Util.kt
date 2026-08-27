@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/util.rs
+// port-lint: source util.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.random.Random
