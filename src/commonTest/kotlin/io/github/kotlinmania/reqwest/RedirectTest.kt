@@ -1,4 +1,4 @@
-// port-lint: tests redirect.rs
+// port-lint: tests reqwest/src/redirect.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.test.Test
