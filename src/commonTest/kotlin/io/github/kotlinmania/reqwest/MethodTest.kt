@@ -1,4 +1,4 @@
-// port-lint: tests lib.rs
+// port-lint: tests reqwest/src/lib.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.test.Test

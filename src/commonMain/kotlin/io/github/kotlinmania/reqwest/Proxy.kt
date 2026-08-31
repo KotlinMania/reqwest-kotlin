@@ -1,4 +1,4 @@
-// port-lint: source proxy.rs
+// port-lint: source reqwest/src/proxy.rs
 package io.github.kotlinmania.reqwest
 
 /**

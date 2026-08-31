@@ -1,4 +1,4 @@
-// port-lint: source redirect.rs
+// port-lint: source reqwest/src/redirect.rs
 package io.github.kotlinmania.reqwest
 
 public sealed class ActionKind {
