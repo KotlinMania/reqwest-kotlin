@@ -1,4 +1,4 @@
-// port-lint: source cookie.rs
+// port-lint: source reqwest/src/cookie.rs
 package io.github.kotlinmania.reqwest
 
 /**
