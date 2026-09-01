@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/async_impl/response.rs
+// port-lint: source async_impl/response.rs
 package io.github.kotlinmania.reqwest
 
 /**

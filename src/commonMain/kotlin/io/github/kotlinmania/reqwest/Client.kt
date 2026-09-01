@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/async_impl/client.rs
+// port-lint: source async_impl/client.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.time.Duration

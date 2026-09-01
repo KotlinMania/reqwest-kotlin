@@ -1,4 +1,4 @@
-// port-lint: tests reqwest/src/cookie.rs
+// port-lint: tests cookie.rs
 package io.github.kotlinmania.reqwest
 
 import kotlin.test.Test

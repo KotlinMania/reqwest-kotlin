@@ -1,4 +1,4 @@
-// port-lint: source reqwest/src/response.rs
+// port-lint: source response.rs
 package io.github.kotlinmania.reqwest
 
 /**
