@@ -5,12 +5,12 @@ Based on AST analysis, here are the concrete next steps.
 ## Summary
 
 - **Files Present:** 16/40 (40.0%)
-- **Function parity:** 146/976 matched (target 347) — 15.0%
-- **Class/type parity:** 35/205 matched (target 87) — 17.1%
-- **Combined symbol parity:** 181/1181 matched (target 434) — 15.3%
+- **Function parity:** 145/958 matched (target 264) — 15.1%
+- **Class/type parity:** 35/198 matched (target 70) — 17.7%
+- **Combined symbol parity:** 180/1156 matched (target 334) — 15.6%
 - **Average inline-code cosine:** 0.18 (function body across 15 matched files)
 - **Average documentation cosine:** 0.35 (doc text across 15 matched files)
-- **Cheat-zeroed Files:** 2
+- **Cheat-zeroed Files:** 1
 - **Critical Issues:** 16 files with <0.60 function similarity
 
 ## Priority 1: Fix Incomplete High-Dependency Files
@@ -22,16 +22,16 @@ No incomplete high-dependency files detected.
 Critical missing files (>10 dependencies):
 
 1. **wasm.body** (12 deps)
-   - Path: `wasm/body.rs`
+   - Path: `reqwest/src/wasm/body.rs`
    - Essential for 12 other files
 
 ## Detailed Work Items
 
 Every matched file is listed below with function and type symbol parity.
 
-### 1. response
+### 1. reqwest.response
 
-- **Target:** `reqwest.ResponseExt [ZERO] [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.ResponseExt [ZERO]`
 - **Similarity:** 0.00
 - **Dependents:** 7
 - **Priority Score:** 7020410.0
@@ -40,13 +40,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched
 - **Missing types:** _none_
 - **Tests:** 0/1 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/response.rs` vs expected `response.rs`
-- **Proposed provenance header:** `// port-lint: source response.rs` (current: `// port-lint: source reqwest/src/response.rs`)
-- **Lint issues:** 1
 
-### 2. cookie
+### 2. reqwest.cookie
 
-- **Target:** `reqwest.Cookie [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Cookie`
 - **Similarity:** 0.35
 - **Dependents:** 3
 - **Priority Score:** 3143006.5
@@ -54,15 +51,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** `expires`, `fmt`, `extract_response_cookie_headers`, `extract_response_cookies`, `new`, `poll_ready`, `call`, `poll`
 - **Types:** 3/9 matched (target 4)
 - **Missing types:** `CookieParseError`, `CookieService`, `Response`, `Error`, `Future`, `Output`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/cookie.rs` vs expected `cookie.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/cookie.rs` vs expected `cookie.rs`
-- **Proposed provenance header:** `// port-lint: source cookie.rs` (current: `// port-lint: source reqwest/src/cookie.rs`)
-- **Proposed provenance header:** `// port-lint: tests cookie.rs` (current: `// port-lint: tests reqwest/src/cookie.rs`)
-- **Lint issues:** 2
 
-### 3. error
+### 3. reqwest.error
 
-- **Target:** `reqwest.Error [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Error`
 - **Similarity:** 0.44
 - **Dependents:** 2
 - **Priority Score:** 2134405.5
@@ -71,15 +63,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 5/7 matched (target 14)
 - **Missing types:** `Result`, `BoxError`
 - **Tests:** 1/6 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/error.rs` vs expected `error.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/error.rs` vs expected `error.rs`
-- **Proposed provenance header:** `// port-lint: source error.rs` (current: `// port-lint: source reqwest/src/error.rs`)
-- **Proposed provenance header:** `// port-lint: tests error.rs` (current: `// port-lint: tests reqwest/src/error.rs`)
-- **Lint issues:** 2
 
-### 4. into_url
+### 4. reqwest.into_url
 
-- **Target:** `reqwest.Url [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Url`
 - **Similarity:** 0.30
 - **Dependents:** 2
 - **Priority Score:** 2000607.0
@@ -88,17 +75,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/2 matched (target 5)
 - **Missing types:** _none_
 - **Tests:** 2/2 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/into_url.rs` vs expected `into_url.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/into_url.rs` vs expected `into_url.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/into_url.rs` vs expected `into_url.rs`
-- **Proposed provenance header:** `// port-lint: source into_url.rs` (current: `// port-lint: source reqwest/src/into_url.rs`)
-- **Proposed provenance header:** `// port-lint: source into_url.rs` (current: `// port-lint: source reqwest/src/into_url.rs`)
-- **Proposed provenance header:** `// port-lint: tests into_url.rs` (current: `// port-lint: tests reqwest/src/into_url.rs`)
-- **Lint issues:** 3
 
-### 5. tls
+### 5. reqwest.tls
 
-- **Target:** `reqwest.Tls [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Tls`
 - **Similarity:** 0.09
 - **Dependents:** 1
 - **Priority Score:** 1344009.1
@@ -107,13 +87,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/11 matched (target 4)
 - **Missing types:** `CertificateRevocationList`, `Cert`, `ClientCert`, `Version`, `InnerVersion`, `TlsBackend`, `NoVerifier`, `IgnoreHostname`, `TlsInfo`
 - **Tests:** 0/9 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/tls.rs` vs expected `tls.rs`
-- **Proposed provenance header:** `// port-lint: source tls.rs` (current: `// port-lint: source reqwest/src/tls.rs`)
-- **Lint issues:** 1
 
 ### 6. async_impl.client
 
-- **Target:** `reqwest.Client [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Client`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 1032708.7
@@ -122,15 +99,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/18 matched (target 3)
 - **Missing types:** `HttpVersionPref`, `Accepts`, `HyperService`, `Error`, `Response`, `Future`, `Config`, `HyperClient`, `MaybeCookieService`, `MaybeDecompression`, `LayeredService`, `LayeredFuture`, `ClientRef`, `PendingInner`, `ResponseFuture`, `Output`
 - **Tests:** 0/3 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/async_impl/client.rs` vs expected `async_impl/client.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/async_impl/client.rs` vs expected `async_impl/client.rs`
-- **Proposed provenance header:** `// port-lint: source async_impl/client.rs` (current: `// port-lint: source reqwest/src/async_impl/client.rs`)
-- **Proposed provenance header:** `// port-lint: tests async_impl/client.rs` (current: `// port-lint: tests reqwest/src/async_impl/client.rs`)
-- **Lint issues:** 2
 
 ### 7. async_impl.request
 
-- **Target:** `reqwest.Request [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Request`
 - **Similarity:** 0.17
 - **Dependents:** 0
 - **Priority Score:** 375408.3
@@ -139,13 +111,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/4 matched (target 3)
 - **Missing types:** `Error`, `Params`
 - **Tests:** 0/16 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/async_impl/request.rs` vs expected `async_impl/request.rs`
-- **Proposed provenance header:** `// port-lint: source async_impl/request.rs` (current: `// port-lint: source reqwest/src/async_impl/request.rs`)
-- **Lint issues:** 1
 
-### 8. proxy
+### 8. reqwest.proxy
 
-- **Target:** `reqwest.Proxy [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Proxy`
 - **Similarity:** 0.12
 - **Dependents:** 0
 - **Priority Score:** 344808.8
@@ -154,15 +123,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 6/8 matched (target 13)
 - **Missing types:** `Matcher`, `Intercepted`
 - **Tests:** 0/9 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/proxy.rs` vs expected `proxy.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/proxy.rs` vs expected `proxy.rs`
-- **Proposed provenance header:** `// port-lint: source proxy.rs` (current: `// port-lint: source reqwest/src/proxy.rs`)
-- **Proposed provenance header:** `// port-lint: tests proxy.rs` (current: `// port-lint: tests reqwest/src/proxy.rs`)
-- **Lint issues:** 2
 
 ### 9. async_impl.multipart
 
-- **Target:** `reqwest.Multipart [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Multipart`
 - **Similarity:** 0.13
 - **Dependents:** 0
 - **Priority Score:** 283908.7
@@ -171,13 +135,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 2/6 matched (target 2)
 - **Missing types:** `FormParts`, `PartMetadata`, `PartProps`, `PercentEncoding`
 - **Tests:** 0/5 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/async_impl/multipart.rs` vs expected `async_impl/multipart.rs`
-- **Proposed provenance header:** `// port-lint: source async_impl/multipart.rs` (current: `// port-lint: source reqwest/src/async_impl/multipart.rs`)
-- **Lint issues:** 1
 
-### 10. retry
+### 10. reqwest.retry
 
-- **Target:** `reqwest.Retry [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Retry`
 - **Similarity:** 0.10
 - **Dependents:** 0
 - **Priority Score:** 263409.0
@@ -185,13 +146,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** `no_budget`, `max_extra_load`, `classify`, `retry`, `clone_request`, `is_retryable_error`, `applies_to`, `fmt`, `method`, `uri`, `status`, `error`, `retryable`, `success`, `is_protocol_nack`
 - **Types:** 1/12 matched (target 5)
 - **Missing types:** `Policy`, `Req`, `Future`, `Scope`, `ScopeFn`, `Scoped`, `Classify`, `ClassifyFn`, `ReqRep`, `Action`, `Classifier`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/retry.rs` vs expected `retry.rs`
-- **Proposed provenance header:** `// port-lint: source retry.rs` (current: `// port-lint: source reqwest/src/retry.rs`)
-- **Lint issues:** 1
 
 ### 11. async_impl.body
 
-- **Target:** `reqwest.Body [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Body`
 - **Similarity:** 0.08
 - **Dependents:** 0
 - **Priority Score:** 192609.2
@@ -200,13 +158,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/5 matched (target 1)
 - **Missing types:** `Inner`, `Data`, `Error`, `ResponseBody`
 - **Tests:** 0/2 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/async_impl/body.rs` vs expected `async_impl/body.rs`
-- **Proposed provenance header:** `// port-lint: source async_impl/body.rs` (current: `// port-lint: source reqwest/src/async_impl/body.rs`)
-- **Lint issues:** 1
 
 ### 12. async_impl.response
 
-- **Target:** `reqwest.Response [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Response`
 - **Similarity:** 0.24
 - **Dependents:** 0
 - **Priority Score:** 132407.6
@@ -215,13 +170,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 1/1 matched (target 2)
 - **Missing types:** _none_
 - **Tests:** 0/1 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/async_impl/response.rs` vs expected `async_impl/response.rs`
-- **Proposed provenance header:** `// port-lint: source async_impl/response.rs` (current: `// port-lint: source reqwest/src/async_impl/response.rs`)
-- **Lint issues:** 1
 
-### 13. redirect
+### 13. reqwest.redirect
 
-- **Target:** `reqwest.Redirect [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Redirect`
 - **Similarity:** 0.40
 - **Dependents:** 0
 - **Priority Score:** 113206.0
@@ -230,15 +182,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Types:** 5/7 matched (target 9)
 - **Missing types:** `PolicyKind`, `TowerRedirectPolicy`
 - **Tests:** 4/4 matched
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/redirect.rs` vs expected `redirect.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/redirect.rs` vs expected `redirect.rs`
-- **Proposed provenance header:** `// port-lint: source redirect.rs` (current: `// port-lint: source reqwest/src/redirect.rs`)
-- **Proposed provenance header:** `// port-lint: tests redirect.rs` (current: `// port-lint: tests reqwest/src/redirect.rs`)
-- **Lint issues:** 2
 
-### 14. config
+### 14. reqwest.config
 
-- **Target:** `reqwest.Config [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Config`
 - **Similarity:** 0.02
 - **Dependents:** 0
 - **Priority Score:** 81009.8
@@ -246,13 +193,10 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** `default`, `new`, `fmt_as_field`, `get`, `get_mut`
 - **Types:** 1/4 matched (target 2)
 - **Missing types:** `RequestConfigValue`, `TotalTimeout`, `Value`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/config.rs` vs expected `config.rs`
-- **Proposed provenance header:** `// port-lint: source config.rs` (current: `// port-lint: source reqwest/src/config.rs`)
-- **Lint issues:** 1
 
-### 15. util
+### 15. reqwest.util
 
-- **Target:** `reqwest.Util [PROVENANCE-FALLBACK]`
+- **Target:** `reqwest.Util`
 - **Similarity:** 0.17
 - **Dependents:** 0
 - **Priority Score:** 40708.3
@@ -260,49 +204,6 @@ Every matched file is listed below with function and type symbol parity.
 - **Missing functions:** `add_cookie_header`, `new`, `fmt`
 - **Types:** 0/1 matched
 - **Missing types:** `Escape`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/util.rs` vs expected `util.rs`
-- **Proposed provenance header:** `// port-lint: source util.rs` (current: `// port-lint: source reqwest/src/util.rs`)
-- **Lint issues:** 1
-
-### 16. lib
-
-- **Target:** `reqwest.Lib [STUB] [PROVENANCE-FALLBACK]`
-- **Similarity:** 0.00
-- **Dependents:** 0
-- **Priority Score:** 40510.0
-- **Functions:** 1/5 matched (target 83)
-- **Missing functions:** `_assert_impls`, `assert_send`, `assert_sync`, `assert_clone`
-- **Types:** 0/0 matched (target 17)
-- **Missing types:** _none_
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Provenance warning:** port-lint provenance header matched only after fallback normalization: `tests:reqwest/src/lib.rs` vs expected `lib.rs`
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: source lib.rs` (current: `// port-lint: source reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Proposed provenance header:** `// port-lint: tests lib.rs` (current: `// port-lint: tests reqwest/src/lib.rs`)
-- **Lint issues:** 14
 
 ## Success Criteria
 
@@ -312,4 +213,27 @@ For each file to be considered "complete":
 - All tests ported
 - Documentation ported
 - port-lint header present
+
+## Reexport / Wiring Modules
+
+These files match `reexport_modules` patterns in `.ast_distance_config.json`. They are filtered out of
+normal priority and missing-file ladders because they are wiring
+modules, not direct logic ports. Consult them for call-site routing;
+do not treat them as the next implementation target by default.
+
+### Matched
+
+| Source | Target | Path |
+|--------|--------|------|
+| `reqwest.lib` | `reqwest.Lib` | `reqwest/src/lib` |
+
+### Missing
+
+| Source | Expected target | Deps | Source path | Expected path |
+|--------|-----------------|------|-------------|---------------|
+| `h3_client.mod` | `reqwest.src.asyncimpl.h3client.Mod` | 0 | `reqwest/src/async_impl/h3_client/mod.rs` | `reqwest/src/asyncimpl/h3client/Mod.kt` |
+| `async_impl.mod` | `reqwest.src.asyncimpl.Mod` | 0 | `reqwest/src/async_impl/mod.rs` | `reqwest/src/asyncimpl/Mod.kt` |
+| `blocking.mod` | `reqwest.src.blocking.Mod` | 0 | `reqwest/src/blocking/mod.rs` | `reqwest/src/blocking/Mod.kt` |
+| `dns.mod` | `reqwest.src.dns.Mod` | 0 | `reqwest/src/dns/mod.rs` | `reqwest/src/dns/Mod.kt` |
+| `wasm.mod` | `reqwest.src.wasm.Mod` | 0 | `reqwest/src/wasm/mod.rs` | `reqwest/src/wasm/Mod.kt` |
 

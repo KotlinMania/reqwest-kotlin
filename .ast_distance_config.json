@@ -15,5 +15,29 @@
     "todos": true,
     "lint": true
   },
-  "reexport_modules": []
+  "reexport_modules": [
+    "lib",
+    "lib.rs",
+    "reqwest/src/lib.rs",
+    "async_impl/mod",
+    "async_impl.mod",
+    "async_impl/mod.rs",
+    "reqwest/src/async_impl/mod.rs",
+    "async_impl/h3_client/mod",
+    "async_impl.h3_client.mod",
+    "async_impl/h3_client/mod.rs",
+    "reqwest/src/async_impl/h3_client/mod.rs",
+    "blocking/mod",
+    "blocking.mod",
+    "blocking/mod.rs",
+    "reqwest/src/blocking/mod.rs",
+    "wasm/mod",
+    "wasm.mod",
+    "wasm/mod.rs",
+    "reqwest/src/wasm/mod.rs",
+    "dns/mod",
+    "dns.mod",
+    "dns/mod.rs",
+    "reqwest/src/dns/mod.rs"
+  ]
 }
