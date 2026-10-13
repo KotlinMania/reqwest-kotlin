@@ -126,7 +126,7 @@ public class Jar : CookieStore {
 
     override fun cookies(url: Url): HeaderValue? {
         val matched = mutableListOf<String>()
-        val host = url.hostStr() ?: ""
+        val host = url.hostStr().orEmpty()
         for (c in store) {
             val cDomain = c.domain()
             val domainMatch = cDomain == null || host == cDomain || host.endsWith(".$cDomain")

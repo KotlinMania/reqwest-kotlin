@@ -30,6 +30,10 @@ class RetryTest {
         val policy = Retry.forHost("example.com").intoPolicy()
         val url1 = Url.parse("https://example.com/api").getOrThrow()
         val url2 = Url.parse("https://other.com/api").getOrThrow()
+        val error = RuntimeException("timeout")
+
+        assertTrue(policy.shouldRetry("GET", url1, null, error))
+        assertFalse(policy.shouldRetry("GET", url2, null, error))
 
         val p =
             Retry

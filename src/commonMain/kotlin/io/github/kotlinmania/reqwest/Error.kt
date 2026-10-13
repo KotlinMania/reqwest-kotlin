@@ -44,8 +44,9 @@ public class Error internal constructor(
                     }
                 }
             }
-            if (url != null) {
-                sb.append(" for url ($url)")
+            val u = url
+            if (u != null) {
+                sb.append(" for url ($u)")
             }
             return sb.toString()
         }
@@ -149,7 +150,7 @@ public class Error internal constructor(
         var curr: Throwable? = this
         while (curr != null) {
             if (curr is TimedOut) return true
-            val msg = curr.message?.lowercase() ?: ""
+            val msg = curr.message?.lowercase().orEmpty()
             if (msg.contains("timeout") || msg.contains("timed out") || msg.contains("deadline")) {
                 return true
             }
@@ -169,7 +170,7 @@ public class Error internal constructor(
     public fun isConnect(): Boolean {
         var curr: Throwable? = this
         while (curr != null) {
-            val msg = curr.message?.lowercase() ?: ""
+            val msg = curr.message?.lowercase().orEmpty()
             if (msg.contains("connection refused") || msg.contains("connect error") || msg.contains("failed to connect")) {
                 return true
             }

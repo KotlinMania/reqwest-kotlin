@@ -133,9 +133,9 @@ public class HeaderMap {
 
     public fun get(name: String): HeaderValue? = map[name.lowercase()]?.firstOrNull()
 
-    public fun getAll(name: HeaderName): List<HeaderValue> = map[name.lower]?.toList() ?: emptyList()
+    public fun getAll(name: HeaderName): List<HeaderValue> = map[name.lower]?.toList().orEmpty()
 
-    public fun getAll(name: String): List<HeaderValue> = map[name.lowercase()]?.toList() ?: emptyList()
+    public fun getAll(name: String): List<HeaderValue> = map[name.lowercase()]?.toList().orEmpty()
 
     public fun remove(name: HeaderName): List<HeaderValue>? {
         originalNames.remove(name.lower)
