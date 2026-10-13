@@ -10,6 +10,7 @@ public class Response(
     private val headers: HeaderMap = HeaderMap(),
     private val url: Url,
     private val body: Body = Body.empty(),
+    private val extensions: Extensions = Extensions(),
 ) {
     public fun status(): StatusCode = status
 
@@ -20,6 +21,8 @@ public class Response(
     public fun url(): Url = url
 
     public fun body(): Body = body
+
+    public fun extensions(): Extensions = extensions
 
     public fun contentLength(): Long? =
         body.contentLength()
@@ -70,12 +73,13 @@ public class Response(
     }
 }
 
-public class ResponseBuilder {
+public class ResponseBuilder : ResponseBuilderExt {
     private var status: StatusCode = StatusCode.OK
     private var version: Version = Version.HTTP_11
     private var headers: HeaderMap = HeaderMap()
     private var url: Url? = null
     private var body: Body = Body.empty()
+    private val extensions: Extensions = Extensions()
 
     public fun status(status: StatusCode): ResponseBuilder {
         this.status = status
@@ -97,8 +101,14 @@ public class ResponseBuilder {
         return this
     }
 
-    public fun url(url: Url): ResponseBuilder {
+    public override fun url(url: Url): ResponseBuilder {
         this.url = url
+        this.extensions.insert(ResponseUrl(url))
+        return this
+    }
+
+    public fun extension(extension: Any): ResponseBuilder {
+        this.extensions.insertAny(extension)
         return this
     }
 
@@ -107,14 +117,17 @@ public class ResponseBuilder {
         return this
     }
 
+    public fun extensions(): Extensions = extensions
+
     public fun build(): Response {
-        val u = url ?: Url.parse("http://localhost/").getOrThrow()
+        val u = url ?: extensions.get<ResponseUrl>()?.url ?: Url.parse("http://localhost/").getOrThrow()
         return Response(
             status = status,
             version = version,
             headers = headers,
             url = u,
             body = body,
+            extensions = extensions.clone(),
         )
     }
 }
