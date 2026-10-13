@@ -10,7 +10,7 @@ public class Body internal constructor(
 ) {
     public fun asBytes(): ByteArray? = rawBytes?.copyOf()
 
-    public fun text(): String = rawBytes?.decodeToString() ?: ""
+    public fun text(): String = rawBytes?.decodeToString().orEmpty()
 
     public fun tryClone(): Body? {
         if (rawBytes != null) {

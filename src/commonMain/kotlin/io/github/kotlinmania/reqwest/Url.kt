@@ -143,14 +143,18 @@ public class Url internal constructor(
 
     public fun scheme(): String = schemeVal
 
-    public fun hasHost(): Boolean = hostVal != null && hostVal!!.isNotEmpty()
+    public fun hasHost(): Boolean {
+        val h = hostVal
+        return h != null && h.isNotEmpty()
+    }
 
     public fun hostStr(): String? = hostVal
 
     public fun port(): Int? = portVal
 
     public fun portOrKnownDefault(): Int? {
-        if (portVal != null) return portVal
+        val p = portVal
+        if (p != null) return p
         return when (schemeVal) {
             "http", "ws" -> 80
             "https", "wss" -> 443
@@ -220,30 +224,35 @@ public class Url internal constructor(
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append(schemeVal)
-        if (hostVal != null || (schemeVal == "http" || schemeVal == "https" || schemeVal == "ftp" || schemeVal.startsWith("socks") || schemeVal.startsWith("ws"))) {
+        val h = hostVal
+        if (h != null || (schemeVal == "http" || schemeVal == "https" || schemeVal == "ftp" || schemeVal.startsWith("socks") || schemeVal.startsWith("ws"))) {
             sb.append("://")
-            if (usernameVal.isNotEmpty() || passwordVal != null) {
+            val pass = passwordVal
+            if (usernameVal.isNotEmpty() || pass != null) {
                 sb.append(usernameVal)
-                if (passwordVal != null) {
-                    sb.append(":").append(passwordVal)
+                if (pass != null) {
+                    sb.append(":").append(pass)
                 }
                 sb.append("@")
             }
-            if (hostVal != null) {
-                sb.append(hostVal)
+            if (h != null) {
+                sb.append(h)
             }
-            if (portVal != null) {
-                sb.append(":").append(portVal)
+            val p = portVal
+            if (p != null) {
+                sb.append(":").append(p)
             }
         } else {
             sb.append(":")
         }
         sb.append(pathVal)
-        if (queryVal != null) {
-            sb.append("?").append(queryVal)
+        val q = queryVal
+        if (q != null) {
+            sb.append("?").append(q)
         }
-        if (fragmentVal != null) {
-            sb.append("#").append(fragmentVal)
+        val f = fragmentVal
+        if (f != null) {
+            sb.append("#").append(f)
         }
         return sb.toString()
     }
